@@ -19,9 +19,13 @@ class PostPolicy
      * Public posts are visible to everyone.
      * Private posts are only visible to their owner.
      */
-    public function view(User $user, Post $post): bool
+    public function view(?User $user, Post $post): bool
     {
-        return $post->visibility === 'public' || $user->id === $post->user_id;
+        if ($post->visibility === 'public') {
+            return true;
+        }
+
+        return $user && $user->id === $post->user_id;
     }
 
     /**

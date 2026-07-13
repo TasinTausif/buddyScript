@@ -20,7 +20,9 @@ class Post extends Model
     ];
 
     protected $with = [
-        'user'
+        'user',
+        'comments.user',
+        'comments.replies.user'
     ];
 
     protected $withCount = [

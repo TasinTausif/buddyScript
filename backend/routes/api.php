@@ -21,6 +21,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/posts/{post}/like', [LikeController::class, 'togglePostLike']);
     Route::post('/comments/{comment}/like', [LikeController::class, 'toggleCommentLike']);
 
+    Route::get('/feed', [PostController::class, 'feed']);
+    Route::get('/posts/search', [PostController::class, 'search']);
+
+    Route::get('/me', function (Request $request) {
+        return response()->json([
+            'success' => true,
+            'data' => $request->user()->loadCount([
+                'posts',
+                'comments',
+                'likes'
+            ]),
+        ]);
+    });
+    Route::get('/my-posts', [PostController::class, 'myPosts']);
+    
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', fn (Request $request) => $request->user());
 });

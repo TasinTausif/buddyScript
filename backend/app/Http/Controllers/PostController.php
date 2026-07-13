@@ -6,6 +6,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -58,6 +59,7 @@ class PostController extends Controller
      */
     public function show(Post $post): JsonResponse
     {
+        $this->authorize('view', $post);
         return response()->json([
             'success' => true,
             'message' => 'Post fetched successfully.',
@@ -113,6 +115,56 @@ class PostController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Post deleted successfully.',
+        ]);
+    }
+
+    public function feed(): JsonResponse
+    {
+        $posts = Post::query()
+            ->where(function ($query) {
+                $query->where('visibility', 'public')
+                    ->orWhere('user_id', auth()->id());
+            })
+            ->latest()
+            ->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'data' => $posts,
+        ]);
+    }
+
+    public function search(Request $request): JsonResponse
+    {
+        $request->validate([
+            'q' => ['required', 'string']
+        ]);
+
+        $posts = Post::query()
+            ->where(function ($query) {
+                $query->where('visibility', 'public')
+                    ->orWhere('user_id', auth()->id());
+            })
+            ->where('body', 'like', "%{$request->q}%")
+            ->latest()
+            ->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'data' => $posts,
+        ]);
+    }
+
+    public function myPosts(): JsonResponse
+    {
+        $posts = auth()->user()
+            ->posts()
+            ->latest()
+            ->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'data' => $posts,
         ]);
     }
 }
