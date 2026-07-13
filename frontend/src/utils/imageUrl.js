@@ -1,12 +1,15 @@
 export const getImageUrl = (path) => {
     if (!path) return '';
 
-    if (/^https?:\/\//i.test(path) || path.startsWith('blob:') || path.startsWith('data:')) {
+    if (
+        /^https?:\/\//i.test(path) ||
+        path.startsWith('blob:') ||
+        path.startsWith('data:')
+    ) {
         return path;
     }
 
-    const apiUrl = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
-    const cleanPath = path.replace(/^\//, '').replace(/^storage\//, '');
+    const backend = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:8000';
 
-    return `${apiUrl}/product-images/${cleanPath}`;
+    return `${backend}/storage/${path}`;
 };
