@@ -42,7 +42,7 @@ const CreatePost = ({ onPostCreated }) => {
     }
 
     return (
-        <div className='_feed_inner_text_area _b_radious6 _padd_b24 _padd_t24 _padd_r24 _padd_l24 _mar_b16 mt-4'>
+        <div className='_feed_inner_text_area _b_radious6 _padd_b24 _padd_t24 _padd_r24 _padd_l24 _mar_b16'>
             <form onSubmit={handleSubmit}>
                 <div className='_feed_inner_text_area_box'>
                     <div className='_feed_inner_text_area_box_image'>

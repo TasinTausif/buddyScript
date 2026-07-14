@@ -49,7 +49,7 @@ const Header = () => {
     }
 
     return (
-        <nav className='navbar navbar-expand-lg navbar-light _header_nav _padd_t10 pb-1 pt-1'>
+        <nav className='navbar navbar-expand-lg navbar-light _header_nav _padd_t10 py-3'>
             <div className='container _custom_container'>
                 <div className='_logo_wrap'>
                     <Link className='navbar-brand' to='/feed'>
@@ -67,23 +67,6 @@ const Header = () => {
                     <span className='navbar-toggler-icon'></span>
                 </button>
                 <div className='collapse navbar-collapse' id='navbarSupportedContent'>
-                    {/* <div className='_header_form ms-auto'>
-                        <form className='_header_form_grp' onSubmit={handleSearchSubmit}>
-                            <svg className='_header_form_svg' xmlns='http://www.w3.org/2000/svg' width='17' height='17' fill='none' viewBox='0 0 17 17'>
-                                <circle cx='7' cy='7' r='6' stroke='#666' />
-                                <path stroke='#666' strokeLinecap='round' d='M16 16l-3-3' />
-                            </svg>
-                            <input
-                                className='form-control me-2 _inpt1'
-                                type='search'
-                                placeholder='input search text'
-                                aria-label='Search'
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </form>
-                    </div> */}
-
                     <div className='_header_nav_profile ms-auto' ref={profileMenuRef}>
                         <div className='_header_nav_profile_image'>
                             <button
