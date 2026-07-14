@@ -79,7 +79,6 @@ class PostController extends Controller
         DB::transaction(function () use ($request, $post, &$validated) {
 
             if ($request->hasFile('image')) {
-
                 if ($post->image) {
                     Storage::disk('public')->delete($post->image);
                 }
@@ -87,6 +86,11 @@ class PostController extends Controller
                 $validated['image'] = $request
                     ->file('image')
                     ->store('posts', 'public');
+            }
+
+            if ($request->boolean('remove_image') && $post->image) {
+                Storage::disk('public')->delete($post->image);
+                $validated['image'] = null;
             }
 
             $post->update($validated);
@@ -121,10 +125,7 @@ class PostController extends Controller
     public function feed(): JsonResponse
     {
         $posts = Post::query()
-            ->where(function ($query) {
-                $query->where('visibility', 'public')
-                    ->orWhere('user_id', auth()->id());
-            })
+            ->where('visibility', 'public')
             ->latest()
             ->paginate(10);
 
@@ -141,11 +142,13 @@ class PostController extends Controller
         ]);
 
         $posts = Post::query()
-            ->where(function ($query) {
-                $query->where('visibility', 'public')
-                    ->orWhere('user_id', auth()->id());
+            ->where('visibility', 'public')
+            ->where(function ($query) use ($request) {
+                $query->where('body', 'like', "%{$request->q}%")
+                    ->orWhereHas('user', function ($uQuery) use ($request) {
+                        $uQuery->where('name', 'like', "%{$request->q}%");
+                    });
             })
-            ->where('body', 'like', "%{$request->q}%")
             ->latest()
             ->paginate(10);
 

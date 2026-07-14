@@ -1,12 +1,14 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom'
 
-import GuestRoute from '../components/GuestRoute';
-import ProtectedRoute from '../components/ProtectedRoute';
+import GuestRoute from '../components/GuestRoute'
+import ProtectedRoute from '../components/ProtectedRoute'
+import Layout from '../components/Layout'
 
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-
-const Feed = () => <h1>Feed</h1>;
+import Login from '../pages/Login'
+import Register from '../pages/Register'
+import Feed from '../pages/Feed'
+import MyPosts from '../pages/MyPosts'
+import PostDetails from '../pages/PostDetails'
 
 const router = createBrowserRouter([
     {
@@ -26,13 +28,26 @@ const router = createBrowserRouter([
         ),
     },
     {
-        path: '/feed',
         element: (
             <ProtectedRoute>
-                <Feed />
+                <Layout />
             </ProtectedRoute>
         ),
+        children: [
+            {
+                path: '/feed',
+                element: <Feed />,
+            },
+            {
+                path: '/my-posts',
+                element: <MyPosts />,
+            },
+            {
+                path: '/posts/:postId',
+                element: <PostDetails />,
+            },
+        ],
     },
-]);
+])
 
-export default router;
+export default router

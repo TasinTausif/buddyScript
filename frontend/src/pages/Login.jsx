@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 
 export default function Login() {
     const navigate = useNavigate()
-    const { login } = useAuth()
+    const { login, authenticated } = useAuth()
 
     const [loading, setLoading] = useState(false)
     const [form, setForm] = useState({
@@ -19,6 +19,12 @@ export default function Login() {
         })
     }
 
+    useEffect(() => {
+        if (authenticated) {
+            navigate('/feed', { replace: true })
+        }
+    }, [authenticated, navigate])
+
     const handleSubmit = async e => {
         e.preventDefault()
 
@@ -26,9 +32,8 @@ export default function Login() {
 
         try {
             await login(form)
-            navigate('/feed')
         } catch (error) {
-            console.error(error.response?.data || error);
+            console.error(error.response?.data || error)
         } finally {
             setLoading(false)
         }

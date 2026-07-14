@@ -23,6 +23,10 @@ class Comment extends Model
         'user',
     ];
 
+    protected $withCount = [
+        'likes',
+    ];
+
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
@@ -40,7 +44,7 @@ class Comment extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id')->latest();
+        return $this->hasMany(self::class, 'parent_id')->latest()->with('user', 'replies');
     }
 
     public function likes(): MorphMany

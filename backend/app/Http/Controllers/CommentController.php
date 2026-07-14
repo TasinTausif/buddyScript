@@ -15,17 +15,15 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request, Post $post): JsonResponse
     {
-        if (
-            $request->filled('parent_id') &&
-            !$post->comments()->whereKey($request->parent_id)->exists()
-        ) {
+        if ($request->filled('parent_id') && !Comment::where('post_id', $post->id)->whereKey($request->parent_id)->exists()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Parent comment does not belong to this post.'
             ], 422);
         }
 
-        $comment = $post->comments()->create([
+        $comment = Comment::create([
+            'post_id'   => $post->id,
             'user_id'   => auth()->id(),
             'body'      => $request->body,
             'parent_id' => $request->parent_id,

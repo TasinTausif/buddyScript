@@ -1,38 +1,23 @@
-import { useEffect, useState } from 'react'
-import api from '../api'
-import PostCard from '../components/PostCard'
-import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useState } from 'react'
+import CreatePost from '../components/feed/CreatePost'
+import PostList from '../components/feed/PostList'
 
-export default function Feed() {
-    const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true)
-    const { user, logout } = useAuth();
-const navigate = useNavigate();
-
-    useEffect(() => {
-        fetchFeed()
-    }, [])
-
-    const fetchFeed = async () => {
-        try {
-            const response = await api.get('/feed')
-            setPosts(response.data.data.data)
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setLoading(false)
-        }
+const Feed = () => {
+    const [refreshKey, setRefreshKey] = useState(0)
+    const handlePostCreated = () => {
+        setRefreshKey(prev => prev + 1)
     }
 
-    const handleLogout = async () => {
-    await logout();
-    navigate("/");
-};
-
-    return(
-        <body>
-            
-        </body>
+    return (
+        <div className='row justify-content-center mt-4'>
+            <div className='col-lg-8'>
+                <CreatePost onPostCreated={handlePostCreated} />
+                <div className='mt-4'>
+                    <PostList refreshKey={refreshKey} />
+                </div>
+            </div>
+        </div>
     )
 }
+
+export default Feed
