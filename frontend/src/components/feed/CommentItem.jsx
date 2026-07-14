@@ -127,7 +127,7 @@ const CommentItem = ({
                 </div>
 
                 <div className='_comment_area'>
-                    <div className='_comment_details'>
+                    <div className='_comment_details' style={{ minWidth: '280px' }}>
                         <div className='_comment_details_top'>
                             <div className='_comment_name'>
                                 <a href='#0' onClick={e => e.preventDefault()}>
@@ -211,18 +211,33 @@ const CommentItem = ({
                             <div className='_comment_reply_num'>
                                 <ul className='_comment_reply_list'>
                                     <li>
-                                        <button
-                                            type='button'
-                                            className={`btn ${
-                                                liked
-                                                    ? 'btn-danger'
-                                                    : 'btn-outline-danger'
-                                            } me-2`}
+                                        <span
                                             onClick={handleLike}
-                                            disabled={loading}>
-                                            <span>❤️</span>
-                                            <span>{likes}</span>
-                                        </button>
+                                            style={{
+                                                cursor: loading
+                                                    ? 'not-allowed'
+                                                    : 'pointer',
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                gap: '4px',
+                                            }}
+                                            className={`comment-action-link ${
+                                                liked ? 'text-danger fw-bold' : ''
+                                            }`}>
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                width='14'
+                                                height='14'
+                                                viewBox='0 0 24 24'
+                                                fill={liked ? 'red' : 'none'}
+                                                stroke={liked ? 'red' : 'currentColor'}
+                                                strokeWidth='2'
+                                                strokeLinecap='round'
+                                                strokeLinejoin='round'>
+                                                <path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z' />
+                                            </svg>
+                                            <span style={{ fontWeight: 600 }}>{likes}</span>
+                                        </span>
                                     </li>
                                     <li>
                                         <span

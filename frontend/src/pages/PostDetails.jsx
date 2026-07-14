@@ -96,7 +96,12 @@ const PostDetails = () => {
                 <div className='card'>
                     <div className='card-body'>
                         <div className='mb-4'>
-                            <h4>{post.user?.name}</h4>
+                            <div className='d-flex align-items-center gap-3 mb-3'>
+                                <div className='_feed_inner_text_area_box_image'>
+                                    <img src='/assets/images/txt_img.png' alt='Image' className='_txt_img' />
+                                </div>
+                                <h4>{post.user?.name}</h4>
+                            </div>
                             <p className='text-muted'>
                                 Visibility: {post.visibility}
                             </p>
