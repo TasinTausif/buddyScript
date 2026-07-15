@@ -188,7 +188,12 @@ APP_NAME=BuddyScript
 
 APP_URL=http://127.0.0.1:8000
 
-DB_CONNECTION=sqlite
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=buddy_script
+DB_USERNAME=
+DB_PASSWORD=
 ```
 
 ### Frontend (.env)
