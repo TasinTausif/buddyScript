@@ -36,7 +36,6 @@ The application follows a RESTful API architecture with Laravel powering the bac
 
 ![Mobile-Login](screenshots/LogM.png)
 ![Mobile-Register](screenshots/RegM.png)
-![Mobile-Login](screenshots/LogM.png)
 ![Mobile-Feed 1](screenshots/FM1.png)
 ![Mobile-Feed 2](screenshots/FM2.png)
 
